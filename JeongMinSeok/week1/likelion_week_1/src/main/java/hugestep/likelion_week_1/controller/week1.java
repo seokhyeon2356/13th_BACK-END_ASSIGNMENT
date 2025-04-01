@@ -23,7 +23,7 @@ public class week1 {
         if (userInfo.containsKey(name)) { // 이름이 존재하는지 확인
             return name+"의 나이는 "+userInfo.get(name)+"입니다."; // 해시맵에서 이름(키)으로 나이(값) 찾아 내보내기
         }else{
-            return "해당하는 이름이 존재하지 않습니다."; // 없으므로 존재하지 않는 나이 -1 반환
+            return "해당하는 이름이 존재하지 않습니다.";
         }
     }
 }
