@@ -23,7 +23,7 @@ public class HelloController {
         this.Age.add(age);
         return "Hello "+age +" years old "+name;
     }
-    @GetMapping("/test2/{name}")
+    @GetMapping("/test/{name}")
     public String test2(@PathVariable String name) {
         Index.add(name.indexOf(name));
 
