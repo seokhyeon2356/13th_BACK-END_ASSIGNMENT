@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @RestController //이걸 쓰면 GetMapping을 사용할 수 있음
 public class HelloController {
 
@@ -22,10 +21,14 @@ public class HelloController {
     }
 
     @GetMapping("/test/{name}")
-    public String test(@PathVariable String name) {
-        return userList.toString();
+    public String getUserAge(@PathVariable String name) {
+        for (User user : userList) {
+            if (user.getName().equals(name)) {
+                return "name = " + name + ", age = " + user.getAge();
+            }
+        }
+        return "User not found";
     }
-
 }
 
 class User {
