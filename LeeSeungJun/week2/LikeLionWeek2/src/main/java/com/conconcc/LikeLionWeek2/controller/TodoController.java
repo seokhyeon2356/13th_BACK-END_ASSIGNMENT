@@ -24,21 +24,17 @@ public class TodoController {
         return ResponseEntity.ok(todoService.editWork(id, fix));
     }
 //삭제 - id에 해당하는 todo 삭제
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         todoService.deleteWork(id);
         return ResponseEntity.noContent().build();
     }
-//id에 맞는 todo의 state만 변경 (todo -> done)
-    @PatchMapping("/godone/{id}")
-    public ResponseEntity<TodoDto> toDone(@PathVariable Long id) {
-        return ResponseEntity.ok(todoService.goDone(id));
+//id에 맞는 todo의 state만 변경 (todo -> done or done-> todo)
+    @PatchMapping("/{id}/state")
+    public ResponseEntity<TodoDto> changeState(@PathVariable Long id) {
+        return ResponseEntity.ok(todoService.changeState(id));
     }
-//id에 맞는 todo의 state만 변경 (done-> todo)
-    @PatchMapping("/godo/{id}")
-    public ResponseEntity<TodoDto> toDo(@PathVariable Long id) {
-        return ResponseEntity.ok(todoService.goDo(id));
-    }
+
 }
 
 

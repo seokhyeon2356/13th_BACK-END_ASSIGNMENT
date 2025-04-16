@@ -22,13 +22,7 @@ public class TodoService {
 
     public TodoDto editWork(Long id, TodoDto fix) {
         TodoEntity todoEntity=todoEntityRepository.findById(id).orElseThrow();
-        if( fix.getTitle() != null ) {
-            todoEntity.setTitle(fix.getTitle());
-        }
-        if(fix.isState()!=todoEntity.isState()) {
-            todoEntity.setState(fix.isState());
-        }
-
+        todoEntity.update(fix);
         TodoEntity update=todoEntityRepository.save(todoEntity);
         return TodoDto.fromEntity(update);
     }
@@ -37,19 +31,12 @@ public class TodoService {
         todoEntityRepository.deleteById(id);
     }
 
-    public TodoDto goDone(Long id) {
+    public TodoDto changeState(Long id) {
         TodoEntity todoEntity=todoEntityRepository.findById(id).orElseThrow();
-        todoEntity.setState(false);
+        todoEntity.togglestate();
         TodoEntity update=todoEntityRepository.save(todoEntity);
         return TodoDto.fromEntity(update);
     }
 
-
-    public TodoDto goDo(Long id) {
-        TodoEntity todoEntity=todoEntityRepository.findById(id).orElseThrow();
-        todoEntity.setState(true);
-        TodoEntity update=todoEntityRepository.save(todoEntity);
-        return TodoDto.fromEntity(update);
-    }
 
 }
