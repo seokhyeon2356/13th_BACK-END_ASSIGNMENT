@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface HelloEntityRepository extends JpaRepository<HelloEntity, Long> {
     @Override
     Optional<HelloEntity> findById(Long aLong);
+    HelloEntity findHelloEntityById(Long id);
 }
