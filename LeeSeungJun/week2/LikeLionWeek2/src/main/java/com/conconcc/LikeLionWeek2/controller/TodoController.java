@@ -19,7 +19,7 @@ public class TodoController {
         return ResponseEntity.ok(todoService.createWork(todoDto));
     }
     // 수정 - url 파라미터로 받은 id와 body에 있는 detail을 이용해 id에 맞는 todo를 찾고 detail에 맞춰서 변경
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<TodoDto> edit(@PathVariable Long id, @RequestBody TodoDto fix) {
         return ResponseEntity.ok(todoService.editWork(id, fix));
     }
@@ -30,7 +30,7 @@ public class TodoController {
         return ResponseEntity.noContent().build();
     }
 //id에 맞는 todo의 state만 변경 (todo -> done or done-> todo)
-    @PatchMapping("/{id}/state")
+    @PatchMapping("/{id}")
     public ResponseEntity<TodoDto> changeState(@PathVariable Long id) {
         return ResponseEntity.ok(todoService.changeState(id));
     }
