@@ -17,13 +17,11 @@ public class TodoEntity {
     private String whatToDo;
 
     @Column(name = "Done")
-    private String done;  // 했는지 확인하는 변수, 기본값은 false다
+    private Boolean done = false;  // 했는지 확인하는 변수, 기본값은 false다
 
-    public void SetToDo(String whatToDO) {
+    public void setWhatToDo(String whatToDO) {
         this.whatToDo = whatToDO;
     }
 
-    public void setDone(String newStatus) {
-        this.done = newStatus;
-    }
+    public void setDone(Boolean newStatus) { this.done = newStatus;}
 }

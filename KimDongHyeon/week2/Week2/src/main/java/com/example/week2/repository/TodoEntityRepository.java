@@ -8,4 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface TodoEntityRepository extends JpaRepository<TodoEntity, Long> {
+    Optional<TodoEntity> findAllBy();
 }
