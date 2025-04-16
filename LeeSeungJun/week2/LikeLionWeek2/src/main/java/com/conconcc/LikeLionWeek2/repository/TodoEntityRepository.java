@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface TodoEntityRepository extends JpaRepository<TodoEntity, Long> {
-    Optional<TodoEntity> findTodoEntityByTitle(String title);
+    Optional<TodoEntity> findByTitle(String title);
 }
