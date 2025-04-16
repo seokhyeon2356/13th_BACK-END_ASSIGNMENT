@@ -31,8 +31,8 @@ public class TodoService {
     }
 
     //할 일 수정
-    public TodoDto updateTodo(Long id, UpdateTodoDto todoDto) {
-        Todo todo = todoRepository.findById(id)
+    public TodoDto updateTodo(UpdateTodoDto todoDto) {
+        Todo todo = todoRepository.findById(todoDto.getId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 할 일을 찾을 수 없습니다."));
 
         todo.changeContent(todoDto.getContent());

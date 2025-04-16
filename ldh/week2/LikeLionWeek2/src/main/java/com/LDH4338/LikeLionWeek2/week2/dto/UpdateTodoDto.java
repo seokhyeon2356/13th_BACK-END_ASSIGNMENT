@@ -10,6 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateTodoDto {
+    private Long id;
     private String content;
     private boolean completed;
+
 }
