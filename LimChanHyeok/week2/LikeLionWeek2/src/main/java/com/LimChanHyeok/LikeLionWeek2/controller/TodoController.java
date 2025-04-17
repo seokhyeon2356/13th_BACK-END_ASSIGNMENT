@@ -32,15 +32,21 @@ public class TodoController {
     }
 
     //할 일 -> 완료
-    @PatchMapping("/{id}/complete")
-    public ResponseEntity<String> complete(@PathVariable Long id){
-        return ResponseEntity.ok(todoService.markAsCompleted(id));
+//    @PatchMapping("/{id}/complete")
+//    public ResponseEntity<String> complete(@PathVariable Long id){
+//        return ResponseEntity.ok(todoService.markAsCompleted(id));
+//    }
+//
+//    //완료 -> 할 일
+//    @PatchMapping("/{id}/undo")
+//    public ResponseEntity<String> undo(@PathVariable Long id){
+//        return ResponseEntity.ok(todoService.markAsUncompleted(id));
+//    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> toggleComplete(@PathVariable Long id) {
+        return ResponseEntity.ok(todoService.toggleCompleted(id));
     }
 
-    //완료 -> 할 일
-    @PatchMapping("/{id}/undo")
-    public ResponseEntity<String> undo(@PathVariable Long id){
-        return ResponseEntity.ok(todoService.markAsUncompleted(id));
-    }
 
 }
