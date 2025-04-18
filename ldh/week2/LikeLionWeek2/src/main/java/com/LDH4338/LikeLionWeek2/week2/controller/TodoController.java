@@ -1,6 +1,7 @@
 package com.LDH4338.LikeLionWeek2.week2.controller;
 
 import com.LDH4338.LikeLionWeek2.week2.dto.TodoDto;
+import com.LDH4338.LikeLionWeek2.week2.dto.UpdateTodoDto;
 import com.LDH4338.LikeLionWeek2.week2.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TodoDto> updateTodo(@PathVariable("id") Long id, @RequestBody TodoDto todoDto) {
-        return ResponseEntity.ok(todoService.updateTodo(id, todoDto));
+    public ResponseEntity<TodoDto> updateTodo(@RequestBody UpdateTodoDto updateTodoDto) {
+        return ResponseEntity.ok(todoService.updateTodo(updateTodoDto));
     }
 
     @DeleteMapping("/{id}")
@@ -36,7 +37,7 @@ public class TodoController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/toggle")
+    @PatchMapping("/{id}")
     public ResponseEntity<TodoDto> toggleCompleted(@PathVariable("id") Long id) {
         TodoDto updated = todoService.changedCompleted(id);
         return ResponseEntity.ok(updated);
