@@ -1,13 +1,11 @@
 package hugestep.likelion_week_1.controller;
 
-import hugestep.likelion_week_1.dto.HelloDto;
-import hugestep.likelion_week_1.entity.HelloEntity;
+import hugestep.likelion_week_1.dto.CreateDto;
+import hugestep.likelion_week_1.dto.UpdateDto;
 import hugestep.likelion_week_1.service.HelloService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -16,12 +14,12 @@ public class HelloController {
     private final HelloService helloService;
 
     @GetMapping("/todolist")
-    public List<HelloEntity> showAllUser() {
+    public List<UpdateDto> showAllUser() {
         return helloService.showAll();
     }
 
     @PostMapping("/todolist")
-    public String add(@RequestBody HelloDto helloDto) {
+    public String add(@RequestBody CreateDto helloDto) {
         return helloService.addToDo(helloDto);
     }
 
@@ -30,9 +28,9 @@ public class HelloController {
         return helloService.deleteToDo(id);
     }
 
-    @PutMapping("/todolist/{id}")
-    public String update(@PathVariable Long id, @RequestParam String newtoDo) {
-        return helloService.updateToDo(id, newtoDo);
+    @PutMapping("/todolist")
+    public String update(@RequestBody UpdateDto updateDto) {
+        return helloService.updateToDo(updateDto);
     }
 
     @PatchMapping("/todolist/{id}")
