@@ -28,7 +28,7 @@ public class TodoController {
         return ResponseEntity.ok(todoService.getTodoById(id));
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<ResponseTodoDTO>> getAllTodo() {
 
         return ResponseEntity.ok(todoService.getAllTodo());
@@ -40,7 +40,7 @@ public class TodoController {
         return ResponseEntity.ok(todoService.updateTodo(requestTodoDTO, id));
     }
 
-    @DeleteMapping("/all")
+    @DeleteMapping
     public ResponseEntity<String> deleteAllTodo() {
 
         return ResponseEntity.ok(todoService.deleteAllTodo());
