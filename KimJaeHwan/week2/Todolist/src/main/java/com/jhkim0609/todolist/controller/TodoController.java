@@ -1,6 +1,7 @@
 package com.jhkim0609.todolist.controller;
 
-import com.jhkim0609.todolist.dto.TodoDto;
+import com.jhkim0609.todolist.dto.CreateDto;
+import com.jhkim0609.todolist.dto.UpdateDto;
 import com.jhkim0609.todolist.entity.TodoEntity;
 import com.jhkim0609.todolist.repository.TodoEntityRepository;
 import com.jhkim0609.todolist.service.TodoService;
@@ -18,19 +19,19 @@ public class TodoController {
     public List<TodoEntity> getAllTodo(){
         return todoEntityRepository.findAll();
     }
-    @PostMapping("Todo/add")
-    public String add(@RequestBody TodoDto todoDto) {
+    @PostMapping("Todo")
+    public String add(@RequestBody CreateDto todoDto) {
         return todoService.addTodo(todoDto);
     }
     @PatchMapping("Todo/{id}")
-    public String updateTodo(@PathVariable Long id, @RequestBody TodoDto todoDto){
-        return todoService.changeTodo(id, todoDto);
+    public String updateTodo(@RequestBody UpdateDto todoDto){
+        return todoService.setTodo(todoDto);
     }
-    @PatchMapping("Todo/Completed/{id}")
+    @PutMapping("Todo/{id}")
     public String updateCompleted(@PathVariable Long id){
-        return todoService.changeCompleted(id);
+        return todoService.setCompleted(id);
     }
-    @DeleteMapping("Todo/Delete/{id}")
+    @DeleteMapping("Todo/{id}")
     public String deleteTodo(@PathVariable Long id){
         return todoService.delTodo(id);
     }

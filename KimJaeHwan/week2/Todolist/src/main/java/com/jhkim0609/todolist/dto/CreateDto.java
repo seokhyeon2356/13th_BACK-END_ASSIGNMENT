@@ -8,11 +8,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class TodoDto {
+public class CreateDto {
     private String Todo;
     private boolean completed;
-    public static TodoDto fromEntity(TodoEntity entity){
-        return TodoDto.builder().Todo(entity.getTodo()).completed(entity.getCompleted()).build();
+    public static CreateDto fromEntity(TodoEntity entity){
+        return CreateDto.builder().Todo(entity.getTodo()).completed(entity.getCompleted()).build();
     }
     public TodoEntity toEntity() {
         return TodoEntity.builder().Todo(Todo).completed(completed).build();
