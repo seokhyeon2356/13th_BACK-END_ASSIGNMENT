@@ -1,49 +1,62 @@
 package com.acycycy.LikeLionWeek2.controller;
 
-import com.acycycy.LikeLionWeek2.dto.TodoDto;
+import com.acycycy.LikeLionWeek2.dto.CreateTodoDto;
+import com.acycycy.LikeLionWeek2.dto.UpdateTodoDto;
 import com.acycycy.LikeLionWeek2.entity.TodoEntity;
 import com.acycycy.LikeLionWeek2.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/todos")
+@RequiredArgsConstructor
 public class TodoController {
 
     private final TodoService todoService;
 
     @GetMapping
-    public List<TodoEntity> findAll() {
-        return todoService.findAll();
+    public ResponseEntity<List<UpdateTodoDto>> findAll() {
+        List<UpdateTodoDto> list = todoService.findAll().stream()
+                .map(UpdateTodoDto::fromEntity)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(list);
     }
 
     @PostMapping
-    public TodoEntity create(@RequestBody TodoDto dto) {
-        return todoService.create(dto);
+    public ResponseEntity<UpdateTodoDto> create(@RequestBody CreateTodoDto dto) {
+        TodoEntity saved = todoService.create(dto.toEntity());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(UpdateTodoDto.fromEntity(saved));
     }
 
     @PutMapping("/{id}")
-    public TodoEntity update(@PathVariable Long id, @RequestBody TodoDto dto) {
-        return todoService.update(id, dto);
+    public ResponseEntity<UpdateTodoDto> update(
+            @PathVariable Long id,
+            @RequestBody UpdateTodoDto dto
+    ) {
+        TodoEntity updated = todoService.update(id, dto);
+        return ResponseEntity.ok(UpdateTodoDto.fromEntity(updated));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         todoService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/complete")
-    public TodoEntity markComplete(@PathVariable Long id) {
-        return todoService.markComplete(id);
-    }
-
-    @PatchMapping("/{id}/revert")
-    public TodoEntity revert(@PathVariable Long id) {
-        return todoService.revert(id);
+    @PatchMapping("/{id}")
+    public ResponseEntity<UpdateTodoDto> changeStatus(
+            @PathVariable Long id,
+            @RequestBody Map<String, Boolean> body
+    ) {
+        boolean completed = body.getOrDefault("completed", false);
+        TodoEntity changed = todoService.changeStatus(id, completed);
+        return ResponseEntity.ok(UpdateTodoDto.fromEntity(changed));
     }
 }
