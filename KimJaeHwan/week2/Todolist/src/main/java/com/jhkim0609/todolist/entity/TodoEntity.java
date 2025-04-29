@@ -19,11 +19,14 @@ public class TodoEntity {
     private String Todo;
     @Column(name = "Completed")
     private boolean completed;
-    public void SetTodo(String Todo){
+    public void setTodo(String Todo){
         this.Todo = Todo;
     }
-    public void setCompleted(boolean status){
+    public void isCompleted(boolean status){
         this.completed = status;
+    }
+    public Long getId() {
+        return id;
     }
     public boolean getCompleted(){
         return this.completed;
