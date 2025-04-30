@@ -21,4 +21,8 @@ public class TodoEntity {
     private String content;
 
     private boolean completed; // false는 할 일, true는 완료
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
 }
