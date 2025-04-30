@@ -8,14 +8,12 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class HelloDto {
-    private Long id; // 해야하는 일 번호
+public class CreateDto {
     private String toDo;   // 해야하는 일
     private boolean completeState; // 완료 유무
 
-    public static HelloDto from(HelloEntity helloEntity) { // Entity를 dto로 변환
-        return HelloDto.builder()
-                .id(helloEntity.getId())
+    public static CreateDto from(HelloEntity helloEntity) { // Entity를 dto로 변환
+        return CreateDto.builder()
                 .toDo(helloEntity.getToDo())
                 .completeState(helloEntity.isCompleteState())
                 .build();
@@ -23,7 +21,6 @@ public class HelloDto {
 
     public HelloEntity toEntity() { // dto를 Entity로 변환
         return HelloEntity.builder()
-                .id(id)
                 .toDo(toDo)
                 .completeState((completeState))
                 .build();

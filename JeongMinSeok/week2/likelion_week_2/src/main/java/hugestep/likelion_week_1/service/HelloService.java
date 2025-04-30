@@ -1,13 +1,14 @@
 package hugestep.likelion_week_1.service;
 
-import hugestep.likelion_week_1.dto.HelloDto;
+import hugestep.likelion_week_1.dto.CreateDto;
+import hugestep.likelion_week_1.dto.UpdateDto;
 import hugestep.likelion_week_1.entity.HelloEntity;
 import hugestep.likelion_week_1.repository.HelloEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -15,12 +16,14 @@ public class HelloService {
     private final HelloEntityRepository helloEntityRepository;
 
     // 할 일 목록 출력
-    public List<HelloEntity> showAll(){ // 전체 리스트
-            return helloEntityRepository.findAll();
+    public List<UpdateDto> showAll(){ // 전체 리스트
+            return helloEntityRepository.findAll().stream() // DB에서 가져온 리스트를 스트림으로 변환
+                    .map(UpdateDto::from)    // Entity로 가져온 각 요소를 Dto로 변환
+                    .collect(Collectors.toList()); // 스트림 연산결과를 리스트로 모음
     }
 
     // 할 일 추가
-    public String addToDo(HelloDto addDo){
+    public String addToDo(CreateDto addDo){
         helloEntityRepository.save(HelloEntity.builder()
                .toDo(addDo.getToDo())
                .completeState(false)
@@ -40,15 +43,15 @@ public class HelloService {
     }
 
     // 할 일 수정
-    public String updateToDo(Long id, String newToDo) {
-        HelloEntity todo = helloEntityRepository.findById(id).orElse(null);
+    public String updateToDo(UpdateDto updateDto) {
+        HelloEntity todo = helloEntityRepository.findById(updateDto.getId()).orElse(null);
 
         if (todo != null) {
-            todo.setToDo(newToDo); // 할 일 수정
+            todo.setToDo(updateDto.getToDo()); // 할 일 수정
             helloEntityRepository.save(todo); // 저장
-            return "ID " + id + "번 할 일이 수정되었습니다.";
+            return "ID " + updateDto.getId() + "번 할 일이 수정되었습니다.";
         } else {
-            return "ID " + id + "번 할 일을 찾을 수 없습니다.";
+            return "ID " + updateDto.getId() + "번 할 일을 찾을 수 없습니다.";
         }
     }
 
