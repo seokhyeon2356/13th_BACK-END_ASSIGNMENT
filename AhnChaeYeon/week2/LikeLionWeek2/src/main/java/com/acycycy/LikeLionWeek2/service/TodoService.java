@@ -1,6 +1,6 @@
 package com.acycycy.LikeLionWeek2.service;
 
-import com.acycycy.LikeLionWeek2.dto.TodoDto;
+import com.acycycy.LikeLionWeek2.dto.UpdateTodoDto;
 import com.acycycy.LikeLionWeek2.entity.TodoEntity;
 import com.acycycy.LikeLionWeek2.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,47 +18,26 @@ public class TodoService {
         return todoRepository.findAll();
     }
 
-    public TodoEntity create(TodoDto dto) {
-        return todoRepository.save(TodoEntity.builder()
-                .content(dto.getContent())
-                .completed(false)
-                .build());
+    public TodoEntity create(TodoEntity toSave) {
+        return todoRepository.save(toSave);
     }
 
-    public TodoEntity update(Long id, TodoDto dto) {
-        TodoEntity todo = todoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("할 일을 찾을 수 없습니다."));
-        todo = TodoEntity.builder()
-                .id(id)
-                .content(dto.getContent())
-                .completed(dto.isCompleted())
-                .build();
-        return todoRepository.save(todo);
+    public TodoEntity update(Long id, UpdateTodoDto dto) {
+        TodoEntity existing = todoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID[" + id + "] 할 일을 찾을 수 없습니다."));
+        existing.setContent(dto.getContent());
+        existing.setCompleted(dto.getCompleted());
+        return todoRepository.save(existing);
     }
 
     public void delete(Long id) {
         todoRepository.deleteById(id);
     }
 
-    public TodoEntity markComplete(Long id) {
-        TodoEntity todo = todoRepository.findById(id)
-                .orElseThrow();
-        todo = TodoEntity.builder()
-                .id(id)
-                .content(todo.getContent())
-                .completed(true)
-                .build();
-        return todoRepository.save(todo);
-    }
-
-    public TodoEntity revert(Long id) {
-        TodoEntity todo = todoRepository.findById(id)
-                .orElseThrow();
-        todo = TodoEntity.builder()
-                .id(id)
-                .content(todo.getContent())
-                .completed(false)
-                .build();
-        return todoRepository.save(todo);
+    public TodoEntity changeStatus(Long id, boolean completed) {
+        TodoEntity existing = todoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID[" + id + "] 할 일을 찾을 수 없습니다."));
+        existing.setCompleted(completed);
+        return todoRepository.save(existing);
     }
 }
