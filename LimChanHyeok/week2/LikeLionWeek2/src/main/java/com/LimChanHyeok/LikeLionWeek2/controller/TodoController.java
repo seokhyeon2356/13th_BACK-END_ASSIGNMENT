@@ -1,10 +1,13 @@
 package com.LimChanHyeok.LikeLionWeek2.controller;
 
 import com.LimChanHyeok.LikeLionWeek2.dto.TodoDto;
+import com.LimChanHyeok.LikeLionWeek2.dto.UserDto;
 import com.LimChanHyeok.LikeLionWeek2.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,6 +50,23 @@ public class TodoController {
     public ResponseEntity<String> toggleComplete(@PathVariable Long id) {
         return ResponseEntity.ok(todoService.toggleCompleted(id));
     }
+
+    @GetMapping("/user/{username}")
+     public List<TodoDto> getTodosByUsername(@PathVariable String username){
+        return todoService.getTodosByUsername(username).stream()
+                .map(TodoDto::fromEntitiy)
+                .toList();
+    }
+
+    @GetMapping("/user")
+    public List<TodoDto> getTodosByUsernameAndCompletion(@RequestBody UserDto userDto){
+                return todoService.getTodosByUsernameAndCompleted(userDto.getUsername(),
+                        userDto.isCompleted()).stream()
+                        .map(TodoDto::fromEntitiy)
+                        .toList();
+    }
+
+
 
 
 }

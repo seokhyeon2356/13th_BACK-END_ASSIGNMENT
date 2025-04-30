@@ -11,6 +11,9 @@ import lombok.*;
 public class TodoDto {
     private String content;
     private boolean completed;
+    private String task;
+    private String username;
+
 
     public TodoEntity toEntity(){
         return TodoEntity.builder()
@@ -23,6 +26,15 @@ public class TodoDto {
         return TodoDto.builder()
                 .content(entity.getContent())
                 .completed(entity.isCompleted())
+                .build();
+    }
+
+    public static TodoDto fromEntity(TodoEntity entity){
+        return TodoDto.builder()
+                .id(entity.getId())
+                .task(entity.getTitle())
+                .completed(entity.isCompleted())
+                .username(entity.getUser() !=null ? entity.getUser().getUsername() : null)
                 .build();
     }
 }
