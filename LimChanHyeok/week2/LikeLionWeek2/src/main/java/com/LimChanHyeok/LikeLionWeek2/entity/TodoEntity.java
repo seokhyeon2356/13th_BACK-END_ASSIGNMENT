@@ -1,9 +1,6 @@
 package com.LimChanHyeok.LikeLionWeek2.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -20,9 +17,16 @@ public class TodoEntity {
 
     private String content;
 
+    private String title;
+
     private boolean completed; // false는 할 일, true는 완료
 
     public void changeContent(String content) {
         this.content = content;
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
 }

@@ -2,23 +2,30 @@ package com.LimChanHyeok.LikeLionWeek2.service;
 
 import com.LimChanHyeok.LikeLionWeek2.dto.TodoDto;
 import com.LimChanHyeok.LikeLionWeek2.entity.TodoEntity;
+import com.LimChanHyeok.LikeLionWeek2.entity.UserEntity;
 import com.LimChanHyeok.LikeLionWeek2.repository.TodoRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class TodoService {
     private final TodoRepository todoRepository;
 
+
     public String addTodo(TodoDto dto){
         todoRepository.save(dto.toEntity());
         return "투두 추가 완료: " + dto.getContent();
     }
 
+//    public List<TodoEntity> getAllTodoEntities(){
+//        return todoRepository.findAll();
+//    }
     public String updateTodo(Long id, TodoDto dto){
         TodoEntity todo = todoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 Id의 투두가 없습니다."));
@@ -68,11 +75,52 @@ public class TodoService {
 //        return todoDtoList;
 //    }
 
-    public List<TodoDto> getAllTodos() {
+    public List<TodoDto> getAllTodoDtos() {
         return todoRepository.findAll()
                 .stream()
                 .map(TodoDto::fromEntitiy)
                 .toList();
+    }
+
+    public List<TodoEntity> getTodosByUsername(String username){
+        return todoRepository.findTodoByUsername(username);
+    }
+
+    public List<TodoEntity> getTodosByUsernameAndCompleted(String username, boolean completed){
+        return todoRepository.findTodoByUsernameAndCompleted(username, completed);
+    }
+
+    @Transactional
+    public Optional<TodoEntity> completeTodo(Long id){
+        return todoRepository.findById(id)
+                .map(todo ->{
+                    todo.setCompleted(true);
+                    return todoRepository.save(todo);
+                });
+    }
+
+//    @Transactional
+//    public boolean deleteTodo(Long id){
+//        return todoRepository.findById(id)
+//                .map(todo -> {
+//                    todoRepository.delete(todo);
+//                    return true;
+//                })
+//                .orElse(false);
+//    }
+
+    @Transactional
+     public TodoEntity addTodos(String title ,String username){
+
+        UserEntity user = new UserEntity();
+        user.setUsername(username);
+
+        TodoEntity todo = TodoEntity.builder()
+                .title(title)
+                .completed(false)
+                .user(user)
+                .build();
+        return todoRepository.save(todo);
     }
 
 
