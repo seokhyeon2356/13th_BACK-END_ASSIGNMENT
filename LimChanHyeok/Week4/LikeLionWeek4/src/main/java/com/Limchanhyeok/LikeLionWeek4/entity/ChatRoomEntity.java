@@ -1,5 +1,6 @@
 package com.Limchanhyeok.LikeLionWeek4.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +27,11 @@ public class ChatRoomEntity {
 
     // 1:N 관계 - 채팅방이 포함된 유저-채팅방 관계
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<UserChatRoomEntity> userChatRooms = new HashSet<>();
 
     // 1:N 관계 - 채팅 메시지들
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<ChatEntity> messages = new HashSet<>();
 }

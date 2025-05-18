@@ -1,5 +1,6 @@
 package com.Limchanhyeok.LikeLionWeek4.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class UserChatRoomEntity {
     // N:1 관계 - User
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private UserEntity user;
 
     // N:1 관계 - ChatRoom
