@@ -46,11 +46,13 @@ public class ChatController {
             return ResponseEntity.notFound().build();
         }
     }
+    // 채팅 읽었는지 체크
     @PostMapping("/read/{chatId}/{userId}")
     public ResponseEntity<String> readMessage(@PathVariable Long chatId, @PathVariable Long userId){
         chatService.checkMessageRead(chatId, userId);
         return ResponseEntity.ok("readChat");
     }
+    // 몇명이 채팅을 읽지 않았는지 출력
     @GetMapping("/unread/{roomId}/{chatId}")
     public ResponseEntity<Long> unreadCount(@PathVariable Long roomId, @PathVariable Long chatId){
         return ResponseEntity.ok(chatService.unreadCount(roomId, chatId));

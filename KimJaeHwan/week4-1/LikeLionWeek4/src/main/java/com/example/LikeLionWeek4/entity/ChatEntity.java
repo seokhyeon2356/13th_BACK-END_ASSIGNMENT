@@ -34,6 +34,7 @@ public class ChatEntity {
     @JoinColumn(name = "chatroom_id", nullable = false)
     private ChatRoomEntity chatRoom;
 
+    //userEntity와 연결해 읽은사람을 set에 추가
     @OneToMany(mappedBy = "userChats", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserEntity> userChats = new HashSet<>();
 

@@ -21,6 +21,7 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    //페스워드 추가해 create
     public UserResponseDto createUser(UserCreationRequestDto userDto){
         UserEntity newUser = new UserEntity(userDto.getUsername(), userDto.getPassword());
         UserEntity savedUser = userRepository.save(newUser);
@@ -38,7 +39,7 @@ public class UserService {
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("사용자 찾지 못함 :" + userId));
         return new UserResponseDto(user.getId(), user.getUsername(), user.getPassword());
     }
-
+    //username으로 모든 채팅방 return하기
     public Set<ChatRoomResponseDto> getAllRooms(String username){
         UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("사용자 찾지 못함 :" + username));
         Set<UserChatRoomEntity> chatrooms = user.getUserChatRooms();

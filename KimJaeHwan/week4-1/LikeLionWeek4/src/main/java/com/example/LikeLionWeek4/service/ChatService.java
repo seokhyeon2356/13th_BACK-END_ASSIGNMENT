@@ -44,14 +44,17 @@ public class ChatService {
             throw new EntityNotFoundException("채팅 없음: "+chatId);
         chatRepository.deleteById(chatId);
     }
+    //읽은 사람 set에 추가하기
     public void checkMessageRead(Long chatId, Long userId){
         ChatEntity chat = chatRepository.findById(chatId).orElseThrow(() -> new EntityNotFoundException("채팅 없음: "+chatId));
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("유저 없음: "+userId));
+        //chat, user 둘중 하나만 확인해도 상관없음
         if(!chat.getUserChats().contains(user)){
             chat.getUserChats().add(user);
             user.getUserChats().add(chat);
         }
     }
+    //읽지않은 사람 return하기
     public Long unreadCount(Long roomId, Long chatId){
         ChatRoomEntity room = chatRoomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("채팅방 없음: "+roomId));
         ChatEntity chat = chatRepository.findById(chatId).orElseThrow(()-> new EntityNotFoundException("채팅 없음: "+chatId));

@@ -19,6 +19,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+    //페스워드 추가 받기
     @PostMapping
     public ResponseEntity<UserResponseDto> createUser(@RequestBody UserCreationRequestDto userDto) {
         try {

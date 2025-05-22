@@ -32,6 +32,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChatEntity> chats = new HashSet<>();
 
+    //chatEntity와 연결해 user가 읽은 채팅 set에 추가
     @OneToMany(mappedBy = "userChats", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChatEntity> userChats = new HashSet<>();
 
